@@ -2,15 +2,21 @@ import enum
 from enum import Enum
 
 
-class Token(Enum):
+class TokenType(Enum):
     NUMBER = enum.auto()
     ADD = enum.auto()
     SUB = enum.auto()
     MUL = enum.auto()
     DIV = enum.auto()
 
-    def __init__(self, num):
-        self.num = num
+
+class Token():
+    def __init__(self, token_type: TokenType, value: float | None = None):
+        self.token_type = token_type
+        self.value = value
+
+    def __str__(self) -> str:
+        return f"type: {self.token_type}, value: {self.value}"
 
 
 class State(Enum):
@@ -31,53 +37,41 @@ class Tokenizer:
     def __iter__(self):
         return self
 
-    def _skip(self):
+    def _move_next(self):
         try:
             self.current_char = next(self.iter_input)
         except StopIteration:
             self.current_char = '\n'
 
-    def __next__(self) -> str:
-        num: str = ""
+    def __next__(self) -> Token:
+        while self.current_char != '\n' and self.current_char.isspace():
+            self._move_next()
 
-        while True:
-            if self.state == State.INTEGER_PART_MSD:
-                if '1' <= self.current_char <= '9':
-                    num = self.current_char
-                    self.state = State.INTEGER_PART
-                else:
-                    # パースエラー
-                    raise StopIteration()
-            elif self.state == State.INTEGER_PART:
-                if '0' <= self.current_char <= '9':
-                    num += self.current_char
-                elif self.current_char == '.':
-                    # 少数部の処理へ飛ぶ
-                    num += self.current_char
-                    self.state = State.FRACTIONAL_PART
-                elif self.current_char in {"+", "\n"}:
-                    # 受理
-                    self.state = State.INTEGER_PART_MSD
-                    self._skip()
-                    return num
-                else:
-                    raise StopIteration()
-            elif self.state == State.FRACTIONAL_PART:
-                if '0' <= self.current_char <= '9':
-                    num += self.current_char
-                elif self.current_char in {"+", "\n"}:
-                    # 受理
-                    self.state = State.INTEGER_PART_MSD
-                    self._skip()
-                    return num
-                else:
-                    raise StopIteration()
+        if self.current_char == '\n':
+            raise StopIteration()
 
-            # 次の文字へ進める
-            try:
-                self.current_char = next(self.iter_input)
-            except StopIteration:
-                self.current_char = '\n'
+        if '1' <= self.current_char <= '9':
+            num = self.current_char
+            self._move_next()
+
+            while self.current_char.isdigit():
+                num += self.current_char
+                self._move_next()
+
+            if self.current_char == '.':
+                num += '.'
+                self._move_next()
+                while self.current_char.isdigit():
+                    num += self.current_char
+                    self._move_next()
+
+            return Token(TokenType.NUMBER, float(num))
+
+        if self.current_char == '+':
+            self._move_next()
+            return Token(TokenType.ADD)
+
+        raise StopIteration()
 
 
 if __name__ == "__main__":
