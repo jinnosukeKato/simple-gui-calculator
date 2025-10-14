@@ -1,9 +1,10 @@
 OP_PLUS : "+"
 OP_MUL : "*"
-OP_EQ : "="
 NUM : /[1-9][0-9]*/
 
-sum : mul (OP_PLUS mul)* OP_EQ
-mul: NUM (OP_MUL NUM)*
+?start : sum "="
+sum : mul (OP_PLUS mul)*
+mul : paren (OP_MUL paren)*
+?paren : NUM | "(" sum ")"
 
 %ignore "\n" | "\r"| " "

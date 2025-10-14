@@ -19,9 +19,9 @@ class Eval(Transformer):
 
 
 with open("./calculator.lark", encoding="utf-8") as grammar:
-    parser = Lark(grammar.read(), start="sum")
+    parser = Lark(grammar.read(), start="start")
 
-tree = parser.parse("5*2+4=")
+tree = parser.parse("5*(2+4)=")
 print(tree)
 print(tree.pretty())
 print(Eval().transform(tree))
