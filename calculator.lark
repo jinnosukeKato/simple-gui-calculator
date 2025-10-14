@@ -1,7 +1,9 @@
 OP_PLUS : "+"
+OP_MUL : "*"
 OP_EQ : "="
 NUM : /[1-9][0-9]*/
 
-sum : NUM (OP_PLUS NUM)* OP_EQ
+sum : mul (OP_PLUS mul)* OP_EQ
+mul: NUM (OP_MUL NUM)*
 
 %ignore "\n" | "\r"| " "
