@@ -2,7 +2,7 @@ OP_PLUS : "+"
 OP_MINUS : "-"
 OP_MUL : "*"
 OP_DIV : "/"
-NUM : /[1-9][0-9]*/
+NUM : /[1-9]\.?[0-9]*/
 
 ?expr : sum "="
 sum : mul (OP_PLUS mul | OP_MINUS mul)*
