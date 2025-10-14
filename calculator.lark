@@ -1,10 +1,12 @@
 OP_PLUS : "+"
+OP_MINUS : "-"
 OP_MUL : "*"
+OP_DIV : "/"
 NUM : /[1-9][0-9]*/
 
-?start : sum "="
-sum : mul (OP_PLUS mul)*
-mul : paren (OP_MUL paren)*
-?paren : NUM | "(" sum ")"
+?expr : sum "="
+sum : mul (OP_PLUS mul | OP_MINUS mul)*
+mul : primary (OP_MUL primary | OP_DIV primary)*
+?primary : NUM | "(" sum ")"
 
 %ignore "\n" | "\r"| " "
