@@ -21,10 +21,10 @@ class CalculatorGUI(ttk.Frame):
 
         # キーの作成
         layout = [
-            ("7", 0, 0), ("8", 0, 1), ("9", 0, 2), ("/", 0, 3), ("%", 0, 4),
-            ("4", 1, 0), ("5", 1, 1), ("6", 1, 2), ("*", 1, 3), ("^", 1, 4),
-            ("1", 2, 0), ("2", 2, 1), ("3", 2, 2), ("-", 2, 3),
-            ("0", 3, 1), (".", 3, 2), ("+", 3, 3),
+            ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3), ("%", 1, 4),
+            ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3), ("^", 2, 4),
+            ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+            ("0", 4, 1), (".", 4, 2), ("+", 4, 3),
         ]
 
         for label, row, col in layout:
@@ -38,13 +38,19 @@ class CalculatorGUI(ttk.Frame):
             self,
             text="=",
             command=self.on_enter
-        ).grid(row=3, column=4)
+        ).grid(row=4, column=4)
 
         ttk.Button(
             self,
             text="BS",
             command=self.delete
-        ).grid(row=3, column=0)
+        ).grid(row=4, column=0)
+
+        ttk.Button(
+            self,
+            text="AC",
+            command=self.all_clear
+        ).grid(row=0, column=0)
 
         self.pack()
 
@@ -69,10 +75,13 @@ class CalculatorGUI(ttk.Frame):
     def delete(self):
         text = self.display_text.get()
         if self.is_calculated:
-            self.display_text.set("")
-            self.is_calculated = False
+            self.all_clear()
         elif text:
             self.display_text.set(text[:-1])
+
+    def all_clear(self):
+        self.display_text.set("")
+        self.is_calculated = False
 
 
 gui = CalculatorGUI()
