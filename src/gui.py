@@ -1,21 +1,22 @@
-import tkinter
-import tkinter.ttk as ttk
-
 from core import Eval, PARSER
+import tkinter.ttk as ttk
+import tkinter
+import ctypes
+ctypes.windll.shcore.SetProcessDpiAwareness(2)
+
 
 root = tkinter.Tk()
 root.title("Simple GUI Calculator")
-root.geometry("400x400")
 
 
-class Calculator:
+class CalculatorGUI(ttk.Frame):
     def __init__(self) -> None:
+        super().__init__(root)
         self.is_calculated = False
 
         self.display_text = tkinter.StringVar(value="")
         self.display = ttk.Label(root, textvariable=self.display_text)
         self.display.pack()
-        self.frame = ttk.Frame(root)
 
         # キーの作成
         layout = [
@@ -26,25 +27,25 @@ class Calculator:
         ]
         for label, row, col in layout:
             ttk.Button(
-                self.frame,
+                self,
                 text=label,
                 command=lambda l=label: self.input(l)
             ).grid(row=row, column=col)
 
         for i, op in enumerate(["+", "-", "*", "/", "%", "^", "."]):
             ttk.Button(
-                self.frame,
+                self,
                 text=op,
                 command=lambda op=op: self.input(op)
             ).grid(row=i, column=3)
 
         ttk.Button(
-            self.frame,
+            self,
             text="=",
             command=self.on_enter
         ).grid(row=0, column=4)
 
-        self.frame.pack()
+        self.pack()
 
     def input(self, char):
         if self.is_calculated:
@@ -65,5 +66,8 @@ class Calculator:
             self.is_calculated = True
 
 
-gui = Calculator()
+gui = CalculatorGUI()
+root.update_idletasks()
+root.geometry(f"{root.winfo_reqwidth()}x{root.winfo_reqheight()}")
+root.resizable(False, False)
 root.mainloop()
