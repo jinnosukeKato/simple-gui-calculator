@@ -10,10 +10,11 @@ root.geometry("400x400")
 
 
 class Calculator:
-    def __init__(self):
+    def __init__(self) -> None:
+        self.is_calculated = False
 
-        self.display_str = ""
-        self.display = ttk.Label(root)
+        self.display_text = tkinter.StringVar(value="")
+        self.display = ttk.Label(root, textvariable=self.display_text)
         self.display.pack()
         self.frame = ttk.Frame(root)
 
@@ -40,13 +41,17 @@ class Calculator:
         self.frame.pack()
 
     def on_input(self, char):
-        self.display_str += str(char)
-        self.display.config(text=self.display_str)
+        if self.is_calculated:
+            self.display_text.set("")
+            self.is_calculated = False
+
+        self.display_text.set(self.display_text.get() + str(char))
 
     def on_enter(self):
         self.on_input("=")
-        tree = PARSER.parse(self.display_str)
+        tree = PARSER.parse(self.display_text.get())
         self.on_input(Eval().transform(tree))
+        self.is_calculated = True
 
 
 gui = Calculator()
