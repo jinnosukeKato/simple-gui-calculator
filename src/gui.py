@@ -40,6 +40,12 @@ class CalculatorGUI(ttk.Frame):
             command=self.on_enter
         ).grid(row=3, column=4)
 
+        ttk.Button(
+            self,
+            text="BS",
+            command=self.delete
+        ).grid(row=3, column=0)
+
         self.pack()
 
     def input(self, char):
@@ -59,6 +65,14 @@ class CalculatorGUI(ttk.Frame):
             self.input(Eval().transform(tree))
         finally:
             self.is_calculated = True
+
+    def delete(self):
+        text = self.display_text.get()
+        if self.is_calculated:
+            self.display_text.set("")
+            self.is_calculated = False
+        elif text:
+            self.display_text.set(text[:-1])
 
 
 gui = CalculatorGUI()
