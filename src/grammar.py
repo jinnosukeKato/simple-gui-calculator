@@ -5,7 +5,7 @@ OP_MUL : "*"
 OP_DIV : "/"
 OP_MOD : "%"
 OP_POW : "^"
-NUM : /-*[1-9]\.?[0-9]*/
+NUM : /-?([1-9]+[0-9]*|0)\.?[0-9]*/
 
 ?expr : sum "="
 sum : mul (OP_PLUS mul | OP_MINUS mul)*
