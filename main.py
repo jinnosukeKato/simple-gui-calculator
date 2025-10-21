@@ -19,8 +19,12 @@ class Eval(Transformer):
         for op, value in zip(values[1::2], values[2::2]):
             if op == "*":
                 result *= float(value)
-            else:
+            elif op == "/":
                 result /= float(value)
+            elif op == "%":
+                result %= float(value)
+            else:
+                raise RuntimeError(f"Illegal operator '{op}'")
         return result
 
 
@@ -28,6 +32,7 @@ with open("./calculator.lark", encoding="utf-8") as grammar:
     parser = Lark(grammar.read(), start="expr")
 
 tree = parser.parse("2.0+2.5*-2=")
-print(tree)
-print(tree.pretty())
+print(Eval().transform(tree))
+
+tree = parser.parse("4.7 % 3=")
 print(Eval().transform(tree))
