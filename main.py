@@ -27,7 +27,7 @@ class Eval(Transformer):
 with open("./calculator.lark", encoding="utf-8") as grammar:
     parser = Lark(grammar.read(), start="expr")
 
-tree = parser.parse("2.5*2=")
+tree = parser.parse("2.0+2.5*-2=")
 print(tree)
 print(tree.pretty())
 print(Eval().transform(tree))
