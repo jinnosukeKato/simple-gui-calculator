@@ -1,4 +1,3 @@
-from lark import Lark
 import tkinter
 import tkinter.ttk as ttk
 
@@ -19,24 +18,31 @@ class Calculator:
         self.frame = ttk.Frame(root)
 
         # キーの作成
-        for num in range(10):
+        layout = [
+            ("7", 0, 0), ("8", 0, 1), ("9", 0, 2),
+            ("4", 1, 0), ("5", 1, 1), ("6", 1, 2),
+            ("1", 2, 0), ("2", 2, 1), ("3", 2, 2),
+            ("0", 3, 1),
+        ]
+        for label, row, col in layout:
             ttk.Button(
                 self.frame,
-                text=num,
-                command=lambda n=num: self.input(n)
-            ).pack()
+                text=label,
+                command=lambda l=label: self.input(l)
+            ).grid(row=row, column=col)
 
-        ttk.Button(
-            self.frame,
-            text="+",
-            command=lambda op="+": self.input(op)
-        ).pack()
+        for i, op in enumerate(["+", "-", "*", "/", "%", "^", "."]):
+            ttk.Button(
+                self.frame,
+                text=op,
+                command=lambda op=op: self.input(op)
+            ).grid(row=i, column=3)
 
         ttk.Button(
             self.frame,
             text="=",
             command=self.on_enter
-        ).pack()
+        ).grid(row=0, column=4)
 
         self.frame.pack()
 
