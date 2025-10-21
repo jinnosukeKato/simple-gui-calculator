@@ -1,4 +1,5 @@
 from lark import Lark, Transformer
+import grammar
 
 
 class Eval(Transformer):
@@ -34,14 +35,4 @@ class Eval(Transformer):
         return result
 
 
-with open("./calculator.lark", encoding="utf-8") as grammar:
-    parser = Lark(grammar.read(), start="expr")
-
-tree = parser.parse("2.0+2.5*-2=")
-print(Eval().transform(tree))
-
-tree = parser.parse("4.7 % 3=")
-print(Eval().transform(tree))
-
-tree = parser.parse("(3 + 5) ^ 2 =")
-print(Eval().transform(tree))
+PARSER = Lark(grammar.GRAMMAR, start="expr")

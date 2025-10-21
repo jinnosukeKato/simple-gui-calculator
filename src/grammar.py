@@ -1,3 +1,4 @@
+GRAMMAR = r"""
 OP_PLUS : "+"
 OP_MINUS : "-"
 OP_MUL : "*"
@@ -13,3 +14,4 @@ pow : primary (OP_POW primary)?
 ?primary : NUM | "(" sum ")"
 
 %ignore "\n" | "\r"| " "
+"""
