@@ -49,9 +49,14 @@ class Calculator:
 
     def on_enter(self):
         self.on_input("=")
-        tree = PARSER.parse(self.display_text.get())
-        self.on_input(Eval().transform(tree))
-        self.is_calculated = True
+        try:
+            tree = PARSER.parse(self.display_text.get())
+        except:
+            pass
+        else:
+            self.on_input(Eval().transform(tree))
+        finally:
+            self.is_calculated = True
 
 
 gui = Calculator()
