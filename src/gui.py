@@ -23,13 +23,13 @@ class Calculator:
             ttk.Button(
                 self.frame,
                 text=num,
-                command=lambda n=num: self.on_input(n)
+                command=lambda n=num: self.input(n)
             ).pack()
 
         ttk.Button(
             self.frame,
             text="+",
-            command=lambda op="+": self.on_input(op)
+            command=lambda op="+": self.input(op)
         ).pack()
 
         ttk.Button(
@@ -40,7 +40,7 @@ class Calculator:
 
         self.frame.pack()
 
-    def on_input(self, char):
+    def input(self, char):
         if self.is_calculated:
             self.display_text.set("")
             self.is_calculated = False
@@ -48,13 +48,13 @@ class Calculator:
         self.display_text.set(self.display_text.get() + str(char))
 
     def on_enter(self):
-        self.on_input("=")
+        self.input("=")
         try:
             tree = PARSER.parse(self.display_text.get())
         except:
             pass
         else:
-            self.on_input(Eval().transform(tree))
+            self.input(Eval().transform(tree))
         finally:
             self.is_calculated = True
 
