@@ -21,11 +21,12 @@ class CalculatorGUI(ttk.Frame):
 
         # キーの作成
         layout = [
-            ("7", 0, 0), ("8", 0, 1), ("9", 0, 2),
-            ("4", 1, 0), ("5", 1, 1), ("6", 1, 2),
-            ("1", 2, 0), ("2", 2, 1), ("3", 2, 2),
-            ("0", 3, 1),
+            ("7", 0, 0), ("8", 0, 1), ("9", 0, 2), ("/", 0, 3), ("%", 0, 4),
+            ("4", 1, 0), ("5", 1, 1), ("6", 1, 2), ("*", 1, 3), ("^", 1, 4),
+            ("1", 2, 0), ("2", 2, 1), ("3", 2, 2), ("-", 2, 3),
+            ("0", 3, 1), (".", 3, 2), ("+", 3, 3),
         ]
+
         for label, row, col in layout:
             ttk.Button(
                 self,
@@ -33,18 +34,11 @@ class CalculatorGUI(ttk.Frame):
                 command=lambda l=label: self.input(l)
             ).grid(row=row, column=col)
 
-        for i, op in enumerate(["+", "-", "*", "/", "%", "^", "."]):
-            ttk.Button(
-                self,
-                text=op,
-                command=lambda op=op: self.input(op)
-            ).grid(row=i, column=3)
-
         ttk.Button(
             self,
             text="=",
             command=self.on_enter
-        ).grid(row=0, column=4)
+        ).grid(row=3, column=4)
 
         self.pack()
 
