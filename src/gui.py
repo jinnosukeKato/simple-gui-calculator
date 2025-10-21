@@ -15,7 +15,8 @@ class CalculatorGUI(ttk.Frame):
         self.is_calculated = False
 
         self.display_text = tkinter.StringVar(value="")
-        self.display = ttk.Label(root, textvariable=self.display_text)
+        self.display = ttk.Label(
+            root, textvariable=self.display_text, font=("Segoe UI", 20))
         self.display.pack()
 
         # キーの作成
@@ -59,7 +60,7 @@ class CalculatorGUI(ttk.Frame):
         try:
             tree = PARSER.parse(self.display_text.get())
         except:
-            pass
+            self.display_text.set("Error")
         else:
             self.input(Eval().transform(tree))
         finally:
