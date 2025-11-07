@@ -69,7 +69,7 @@ class CalculatorGUI(ttk.Frame):
         except:
             self.display_text.set("Error")
         else:
-            self.input(Eval().transform(tree))
+            self.display_text.set(Eval().transform(tree))
         finally:
             self.is_calculated = True
 
