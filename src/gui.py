@@ -1,8 +1,6 @@
 from core import Eval, PARSER
 import tkinter.ttk as ttk
 import tkinter
-import ctypes
-ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 
 root = tkinter.Tk()
