@@ -30,8 +30,8 @@ class Eval(Transformer):
 
     def pow(self, values) -> float:
         result = float(values[0])
-        if len(values) >= 3:
-            result **= float(values[2])
+        for _, value in zip(values[1::2], values[2::2]):
+            result **= float(value)
         return result
 
 
