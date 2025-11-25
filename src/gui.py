@@ -61,13 +61,17 @@ class CalculatorGUI(ttk.Frame):
         self.display_text.set(self.display_text.get() + str(char))
 
     def on_enter(self):
+        if self.is_calculated:
+            return
+
         self.input("=")
         try:
             tree = PARSER.parse(self.display_text.get())
+            result = Eval().transform(tree)
         except:
             self.display_text.set("Error")
         else:
-            self.display_text.set(Eval().transform(tree))
+            self.display_text.set(result)
         finally:
             self.is_calculated = True
 
